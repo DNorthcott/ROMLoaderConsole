@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RomLoaderConsole.src
+namespace RomLoaderConsole
 {
     public class Blend
     {
-        private string date;
+        private string dateOfBlend;
         private int priority;
         private string coal1;
         private string coal2;
@@ -23,10 +23,10 @@ namespace RomLoaderConsole.src
 
         private List<string> cycle;
 
-        public string Date
+        public string DateOfBlend
         {
-            get { return date; }
-            set { date = value; }
+            get { return dateOfBlend; }
+            set { dateOfBlend = value; }
         }
 
         public int Priority

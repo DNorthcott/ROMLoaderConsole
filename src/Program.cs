@@ -1,4 +1,6 @@
-﻿namespace RomLoaderConsole
+﻿using System;
+
+namespace RomLoaderConsole
 {
     class Program
     {
@@ -9,6 +11,7 @@
         static void Main(string[] args)
         {
             ViewModel.StartProgram();
+            Console.ReadKey();
         }
     }
 }

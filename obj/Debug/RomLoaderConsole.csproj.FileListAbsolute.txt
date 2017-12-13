@@ -5,3 +5,12 @@ C:\Projects\RomLoaderConsole\RomLoaderConsole\obj\Debug\RomLoaderConsole.csprojR
 C:\Projects\RomLoaderConsole\RomLoaderConsole\obj\Debug\RomLoaderConsole.csproj.CoreCompileInputs.cache
 C:\Projects\RomLoaderConsole\RomLoaderConsole\obj\Debug\RomLoaderConsole.exe
 C:\Projects\RomLoaderConsole\RomLoaderConsole\obj\Debug\RomLoaderConsole.pdb
+C:\Projects\RomLoaderConsole\RomLoaderConsole\bin\Debug\x86\e_sqlite3.dll
+C:\Projects\RomLoaderConsole\RomLoaderConsole\bin\Debug\x64\e_sqlite3.dll
+C:\Projects\RomLoaderConsole\RomLoaderConsole\bin\Debug\SQLite-net.dll
+C:\Projects\RomLoaderConsole\RomLoaderConsole\bin\Debug\SQLitePCLRaw.batteries_green.dll
+C:\Projects\RomLoaderConsole\RomLoaderConsole\bin\Debug\SQLitePCLRaw.batteries_v2.dll
+C:\Projects\RomLoaderConsole\RomLoaderConsole\bin\Debug\SQLitePCLRaw.core.dll
+C:\Projects\RomLoaderConsole\RomLoaderConsole\bin\Debug\SQLitePCLRaw.provider.e_sqlite3.dll
+C:\Projects\RomLoaderConsole\RomLoaderConsole\bin\Debug\SQLite-net.pdb
+C:\Projects\RomLoaderConsole\RomLoaderConsole\bin\Debug\SQLite-net.xml
