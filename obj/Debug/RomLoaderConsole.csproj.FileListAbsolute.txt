@@ -1,0 +1,7 @@
+C:\Projects\RomLoaderConsole\RomLoaderConsole\bin\Debug\RomLoaderConsole.exe.config
+C:\Projects\RomLoaderConsole\RomLoaderConsole\bin\Debug\RomLoaderConsole.exe
+C:\Projects\RomLoaderConsole\RomLoaderConsole\bin\Debug\RomLoaderConsole.pdb
+C:\Projects\RomLoaderConsole\RomLoaderConsole\obj\Debug\RomLoaderConsole.csprojResolveAssemblyReference.cache
+C:\Projects\RomLoaderConsole\RomLoaderConsole\obj\Debug\RomLoaderConsole.csproj.CoreCompileInputs.cache
+C:\Projects\RomLoaderConsole\RomLoaderConsole\obj\Debug\RomLoaderConsole.exe
+C:\Projects\RomLoaderConsole\RomLoaderConsole\obj\Debug\RomLoaderConsole.pdb
