@@ -25,9 +25,13 @@ namespace RomLoaderConsole
             
 
             listOfBlends = await database.GetBlends(DateTime.Now);
+            listOfBlends.Sort();
+            primaryBlend = listOfBlends[listOfBlends.Count - 1];
             
             listOfStockpiles = await database.GetRunOfMine(DateTime.Now);
-
+            listOfStockpiles.Sort();
+            primaryROM = listOfStockpiles[listOfStockpiles.Count - 1];
+           
         }
 
         public void UserIterface()
@@ -86,7 +90,17 @@ namespace RomLoaderConsole
 
         private void StockpileLocations()
         {
-            
+
+            Console.WriteLine();
+
+            List <Stockpile> stockpiles = primaryROM.GetStockpiles();
+            stockpiles.Sort();
+
+            foreach (var pileStockpile in stockpiles)
+            {
+                Console.WriteLine(pileStockpile.ToString());
+            }
+
         }
     }
 }
