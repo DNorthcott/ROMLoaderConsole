@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace RomLoaderConsole
 {
@@ -10,7 +11,14 @@ namespace RomLoaderConsole
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            ViewModel.StartProgram();
+
+            Console.WriteLine("======================================");
+            Console.WriteLine("Welcome to the ROM loading system");
+            Console.WriteLine("======================================");
+
+            ViewModel display = new ViewModel();
+            display.StartProgram();
+            display.UserIterface();
             Console.ReadKey();
         }
     }

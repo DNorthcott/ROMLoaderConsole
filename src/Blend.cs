@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RomLoaderConsole
+namespace RomLoaderConsole 
 {
-    public class Blend
+    public class Blend : IComparable
     {
         private string dateOfBlend;
         private int priority;
@@ -93,6 +93,24 @@ namespace RomLoaderConsole
         {
             get { return coal10; }
             set { coal10 = value; }
+        }
+
+        public int CompareTo(object obj)
+        {
+            Blend otherBlend = (Blend)obj;
+
+            if (priority > otherBlend.Priority)
+            {
+                return 1;
+            }
+            else if (priority == otherBlend.Priority)
+            {
+                return 0;
+            }
+            else
+            {
+                return -1;
+            }
         }
     }
 }

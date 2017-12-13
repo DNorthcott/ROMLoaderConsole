@@ -1,46 +1,92 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace RomLoaderConsole
 {
-    public static class ViewModel
+    public class ViewModel
     {
+        List<Blend> listOfBlends;
+        List<RunOfMine> listOfStockpiles;
+        List<CoalMovement> listOfCoalMovements;
+        DatabaseServices database;
 
-        public static async void StartProgram()
+        private RunOfMine primaryROM;
+        private Blend primaryBlend;
+
+        public ViewModel()
+        {
+            //Connect to database.
+            database = new DatabaseServices("ConsoleDB.db");
+        }
+
+        public async void StartProgram()
         {
             
 
-            List<Blend> listOfBlends;
-            List<RunOfMine> listOfStockpiles;
-            List<CoalMovement> listOfCoalMovements;
-            DatabaseServices database;
-
-       
-            //Connect to database.
-            database = new DatabaseServices("ConsoleDB.db");
-          
-            
             listOfBlends = await database.GetBlends(DateTime.Now);
             
             listOfStockpiles = await database.GetRunOfMine(DateTime.Now);
 
-            Console.WriteLine("stop");
-           
+        }
+
+        public void UserIterface()
+        {
+
+            char selection = MainScreen();
+
+            switch (selection)
+            {
+                case '1':
+                    BlendInfo();
+                    break;
+                case '2':
+                    StockpileLocations();
+                    break;
+                case '3':
+                    LoadBin();
+                    break;
+                case '4':
+                //close program
+                    Console.WriteLine();
+                    break;
+                default:
+                    MainScreen();
+                    break;
+            }
 
 
-            Console.WriteLine("======================================");
-            Console.WriteLine("Welcome to the ROM loading system");
-            Console.WriteLine("======================================");
+            UserIterface();
+
+
+
+
+        }
+
+        private void BlendInfo()
+        {
+            
+        }
+
+        private void LoadBin()
+        {
+            
+        }
+
+        private char MainScreen()
+        {
+
             Console.WriteLine();
             Console.WriteLine("Select from the following: ");
             Console.WriteLine("1 Todays blend");
             Console.WriteLine("2 Stockpile locations");
             Console.WriteLine("3 Start loading");
-  
+            return Console.ReadKey().KeyChar;
+        }
+
+        private void StockpileLocations()
+        {
             
-
-
-            Console.ReadKey();
         }
     }
 }
