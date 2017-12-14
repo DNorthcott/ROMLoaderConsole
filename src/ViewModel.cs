@@ -26,8 +26,15 @@ namespace RomLoaderConsole
 
             listOfBlends = await database.GetBlends(DateTime.Now);
             listOfBlends.Sort();
-            primaryBlend = listOfBlends[listOfBlends.Count - 1];
-            
+            if (listOfBlends.Count != 0)
+            {
+                primaryBlend = listOfBlends[listOfBlends.Count - 1];
+            }
+            else
+            {
+                Console.WriteLine("No blend for today found");
+            }
+
             listOfStockpiles = await database.GetRunOfMine(DateTime.Now);
             listOfStockpiles.Sort();
             primaryROM = listOfStockpiles[listOfStockpiles.Count - 1];

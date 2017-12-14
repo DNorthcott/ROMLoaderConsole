@@ -28,7 +28,7 @@ namespace RomLoaderConsole
 
             Console.WriteLine("blend");
             
-            List<Blend> blend1 = await database.QueryAsync<Blend>(("SELECT * FROM blend"));
+            
             string sql = "SELECT * FROM blend WHERE DateOfBlend = " +  "'" + date.ToString("yyyy-MM-dd") + "'";
             Console.WriteLine("Reading blend");
             

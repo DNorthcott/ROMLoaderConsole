@@ -23,6 +23,29 @@ namespace RomLoaderConsole
 
         private List<string> cycle;
 
+
+        public Blend()
+        {
+            
+        }
+
+        public Blend(string dateOfBlend, int priority, string coal1, string coal2, string coal3, string coal4,
+            string coal5, string coal6, string coal7, string coal8, string coal9, string coal10)
+        {
+            this.dateOfBlend = dateOfBlend;
+            this.priority = priority;
+            this.coal1 = coal1;
+            this.coal2 = coal2;
+            this.coal3 = coal3;
+            this.coal4 = coal4;
+            this.coal5 = coal5;
+            this.coal6 = coal6;
+            this.coal7 = coal7;
+            this.coal8 = coal8;
+            this.coal9 = coal9;
+            this.coal10 = coal10;
+        }
+
         public string DateOfBlend
         {
             get { return dateOfBlend; }
@@ -112,5 +135,37 @@ namespace RomLoaderConsole
                 return -1;
             }
         }
+
+        public override bool Equals(object obj)
+        {
+
+            if (obj == null)
+            {
+                return false;
+            }
+            else if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            Blend otherBlend = (Blend) obj;
+
+            if (dateOfBlend.Equals(otherBlend.dateOfBlend) && priority == otherBlend.Priority &&
+                Coal1 == otherBlend.Coal1 &&
+                Coal2 == otherBlend.Coal2 &&
+                Coal3 == otherBlend.Coal3 &&
+                Coal4 == otherBlend.Coal4 &&
+                Coal5 == otherBlend.Coal5 &&
+                Coal6 == otherBlend.Coal6 &&
+                Coal7 == otherBlend.Coal7 &&
+                Coal8 == otherBlend.Coal8 &&
+                Coal9 == otherBlend.Coal9 &&
+                Coal10 == otherBlend.Coal10)
+            {
+                return true;
+            }
+            return false;
+        }
     }
+
 }

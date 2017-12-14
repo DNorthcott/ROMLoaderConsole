@@ -18,6 +18,7 @@ namespace RomLoaderConsole
         private string truck;
         private string dateTimeArrival;
         private DateTime propDateTime;
+        private string endLocation;
 
         /// <summary>
         /// Creates a new CoalEntry class.
@@ -71,6 +72,9 @@ namespace RomLoaderConsole
             return PropDateTime.CompareTo(otherCoalMovement.PropDateTime);
         }
 
-
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
     }
 }
