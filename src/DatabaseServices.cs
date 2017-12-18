@@ -51,7 +51,7 @@ namespace RomLoaderConsole
 
 
             List<CoalMovement> stuff = await database.QueryAsync<CoalMovement>(("SELECT * FROM coalMovement " +
-                   "where DateTimeArrival > " + currentTime + "and DateTimeArrival < " + futureTime));
+                   "where DateTimeArrival > " + currentTime + "and DateTimeArrival <= " + futureTime));
             stuff.Sort();
             Console.WriteLine();
             Console.WriteLine("coaling complete");

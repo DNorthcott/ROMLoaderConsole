@@ -32,6 +32,13 @@ namespace RomLoaderConsole
 
         }
 
+        public CoalMovement(String coal, string truck, string dateTimeArrival)
+        {
+            this.coal = coal;
+            this.truck = truck;
+            DateTimeArrival = dateTimeArrival;
+        }
+
         public string Truck
         {
             get { return truck; }
@@ -74,7 +81,26 @@ namespace RomLoaderConsole
 
         public override bool Equals(object obj)
         {
-            return base.Equals(obj);
+            if (obj == null)
+            {
+                return false;
+            }
+            else if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            CoalMovement otherMovement = (CoalMovement) obj;
+
+            if (coal == otherMovement.Coal && truck == otherMovement.Truck &&
+                propDateTime.Equals(otherMovement.PropDateTime))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

@@ -21,21 +21,44 @@ namespace RomLoaderConsole
 
         private List<Stockpile> stockpiles;
 
+        public RunOfMine()
+        {
+            
+        }
+
+        public RunOfMine(string date, int priority, string stockpile1, string stockpile2, string stockpile3,
+            string stockpile4, string stockpile5, string stockpile6, string stockpile7, string stockpile8
+            , string stockpile9, string stockpile10)
+        {
+            Date = date;
+            Priority = priority;
+            Stockpile1 = stockpile1;
+            Stockpile2 = stockpile2;
+            Stockpile3 = stockpile3;
+            Stockpile4 = stockpile4;
+            Stockpile5 = stockpile5;
+            Stockpile6 = stockpile6;
+            Stockpile7 = stockpile7;
+            Stockpile8 = stockpile8;
+            Stockpile9 = stockpile9;
+            Stockpile10 = stockpile10;
+        }
+
         public void AddStockpile(string stockpileName, string coal)
         {
             Console.WriteLine("entered thingo");
-            if (stockpiles == null)
+            if (Stockpiles == null)
             {
                 stockpiles = new List<Stockpile>();
             }
 
             if (coal == null)
             {
-                stockpiles.Add(new Stockpile(stockpileName, "Empty"));
+                Stockpiles.Add(new Stockpile(stockpileName, "Empty"));
             }
             else
             {
-                stockpiles.Add(new Stockpile(stockpileName, coal));
+                Stockpiles.Add(new Stockpile(stockpileName, coal));
             }
 
             
@@ -153,6 +176,11 @@ namespace RomLoaderConsole
             }
         }
 
+        public List<Stockpile> Stockpiles
+        {
+            get { return stockpiles; }
+        }
+
         public int CompareTo(object obj)
         {
             RunOfMine otherROM = (RunOfMine)obj;
@@ -171,10 +199,39 @@ namespace RomLoaderConsole
             }
         }
 
-
-        public List<Stockpile> GetStockpiles()
+        public override bool Equals(object obj)
         {
-            return stockpiles;
+
+            bool equal = true;
+
+            if (obj == null)
+            {
+                return false;
+            }
+            else if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            RunOfMine otherROM = (RunOfMine) obj;
+
+            if (date == otherROM.Date && priority == otherROM.Priority)
+            {
+                
+                List<Stockpile> otherStockpileses = otherROM.Stockpiles;
+                foreach (Stockpile s in Stockpiles)
+                {
+                    if (!(otherStockpileses.Contains(s)))
+                    {
+                        equal = false;
+                    }
+
+                }
+
+               
+
+            }
+            return equal;
         }
         }
     }

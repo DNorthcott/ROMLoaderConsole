@@ -26,9 +26,19 @@ namespace RomLoaderConsole
             get { return stockPileNumber; }
         }
 
+        public string Name
+        {
+            get { return name; }
+        }
+
+        public string Coal
+        {
+            get { return coal; }
+        }
+
         public override string ToString()
         {
-            return "Stockpile " + StockPileNumber + " : " + coal;
+            return "Stockpile " + StockPileNumber + " : " + Coal;
         }
 
         public int CompareTo(object obj)
@@ -47,6 +57,28 @@ namespace RomLoaderConsole
             {
                 return -1;
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+
+            if (obj == null)
+            {
+                return false;
+            }
+            else if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            Stockpile otherStockpile = (Stockpile) obj;
+
+            if (Name == otherStockpile.Name && coal == otherStockpile.Coal &&
+                stockPileNumber == otherStockpile.StockPileNumber)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

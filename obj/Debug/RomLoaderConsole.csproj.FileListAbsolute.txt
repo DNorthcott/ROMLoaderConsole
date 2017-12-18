@@ -22,3 +22,4 @@ C:\Projects\RomLoaderConsole\RomLoaderConsole\bin\Debug\Mono.Cecil.Mdb.dll
 C:\Projects\RomLoaderConsole\RomLoaderConsole\bin\Debug\Mono.Cecil.Rocks.dll
 C:\Projects\RomLoaderConsole\RomLoaderConsole\bin\Debug\nunit.framework.dll
 C:\Projects\RomLoaderConsole\RomLoaderConsole\bin\Debug\nunit.framework.xml
+C:\Projects\RomLoaderConsole\RomLoaderConsole\obj\Debug\RomLoaderConsole.csprojResolveAssemblyReference.cache
