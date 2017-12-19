@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 
 namespace RomLoaderConsole
 {
     public class RunOfMine : IComparable
     {
-        private string date;
-        private int priority;
+        private List<string> cycle;
         private string stockpile1;
+        private string stockpile10;
         private string stockpile2;
         private string stockpile3;
         private string stockpile4;
@@ -17,13 +16,10 @@ namespace RomLoaderConsole
         private string stockpile7;
         private string stockpile8;
         private string stockpile9;
-        private string stockpile10;
-
-        private List<Stockpile> stockpiles;
 
         public RunOfMine()
         {
-            
+            cycle = new List<string>();
         }
 
         public RunOfMine(string date, int priority, string stockpile1, string stockpile2, string stockpile3,
@@ -44,41 +40,13 @@ namespace RomLoaderConsole
             Stockpile10 = stockpile10;
         }
 
-        public void AddStockpile(string stockpileName, string coal)
-        {
-            Console.WriteLine("entered thingo");
-            if (Stockpiles == null)
-            {
-                stockpiles = new List<Stockpile>();
-            }
+        public string Date { get; set; }
 
-            if (coal == null)
-            {
-                Stockpiles.Add(new Stockpile(stockpileName, "Empty"));
-            }
-            else
-            {
-                Stockpiles.Add(new Stockpile(stockpileName, coal));
-            }
-
-            
-        }
-
-        public string Date
-        {
-            get { return date; }
-            set { date = value; }
-        }
-
-        public int Priority
-        {
-            get { return priority; }
-            set { priority = value; }
-        }
+        public int Priority { get; set; }
 
         public string Stockpile1
         {
-            get { return stockpile1; }
+            get => stockpile1;
             set
             {
                 stockpile1 = value;
@@ -88,7 +56,7 @@ namespace RomLoaderConsole
 
         public string Stockpile2
         {
-            get { return stockpile2; }
+            get => stockpile2;
             set
             {
                 stockpile2 = value;
@@ -98,7 +66,7 @@ namespace RomLoaderConsole
 
         public string Stockpile3
         {
-            get { return stockpile3; }
+            get => stockpile3;
             set
             {
                 stockpile3 = value;
@@ -108,7 +76,7 @@ namespace RomLoaderConsole
 
         public string Stockpile4
         {
-            get { return stockpile4; }
+            get => stockpile4;
             set
             {
                 stockpile4 = value;
@@ -118,7 +86,7 @@ namespace RomLoaderConsole
 
         public string Stockpile5
         {
-            get { return stockpile5; }
+            get => stockpile5;
             set
             {
                 stockpile5 = value;
@@ -128,7 +96,7 @@ namespace RomLoaderConsole
 
         public string Stockpile6
         {
-            get { return stockpile6; }
+            get => stockpile6;
             set
             {
                 stockpile6 = value;
@@ -138,7 +106,7 @@ namespace RomLoaderConsole
 
         public string Stockpile7
         {
-            get { return stockpile7; }
+            get => stockpile7;
             set
             {
                 stockpile7 = value;
@@ -148,7 +116,7 @@ namespace RomLoaderConsole
 
         public string Stockpile8
         {
-            get { return stockpile8; }
+            get => stockpile8;
             set
             {
                 stockpile8 = value;
@@ -158,7 +126,7 @@ namespace RomLoaderConsole
 
         public string Stockpile9
         {
-            get { return stockpile9; }
+            get => stockpile9;
             set
             {
                 stockpile9 = value;
@@ -168,7 +136,7 @@ namespace RomLoaderConsole
 
         public string Stockpile10
         {
-            get { return stockpile10; }
+            get => stockpile10;
             set
             {
                 stockpile10 = value;
@@ -176,62 +144,81 @@ namespace RomLoaderConsole
             }
         }
 
-        public List<Stockpile> Stockpiles
+        public List<Stockpile> Stockpiles { get; private set; }
+
+        public List<string> Cycle
         {
-            get { return stockpiles; }
-        }
-
-        public int CompareTo(object obj)
-        {
-            RunOfMine otherROM = (RunOfMine)obj;
-
-            if (priority > otherROM.Priority)
+            get
             {
-                return 1;
-            }
-            else if (priority == otherROM.Priority)
-            {
-                return 0;
-            }
-            else
-            {
-                return -1;
-            }
-        }
-
-        public override bool Equals(object obj)
-        {
-
-            bool equal = true;
-
-            if (obj == null)
-            {
-                return false;
-            }
-            else if (obj.GetType() != GetType())
-            {
-                return false;
-            }
-
-            RunOfMine otherROM = (RunOfMine) obj;
-
-            if (date == otherROM.Date && priority == otherROM.Priority)
-            {
-                
-                List<Stockpile> otherStockpileses = otherROM.Stockpiles;
-                foreach (Stockpile s in Stockpiles)
+                if (cycle == null)
                 {
-                    if (!(otherStockpileses.Contains(s)))
-                    {
-                        equal = false;
-                    }
-
+                    cycle = new List<string>();
                 }
 
-               
 
+
+                return cycle;
+            }
+
+        }
+
+        /// <summary>
+        ///     Compares the RunOfMine object.  A higher priority integer
+        ///     is considered greater than the arguement.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns>
+        ///     A positive number if the arguement is less than this objects
+        ///     priority.  0 if equal and -1 if less than.
+        /// </returns>
+        public int CompareTo(object obj)
+        {
+            var otherROM = (RunOfMine) obj;
+
+            if (Priority > otherROM.Priority)
+                return 1;
+            if (Priority == otherROM.Priority)
+                return 0;
+            return -1;
+        }
+
+        public void AddStockpile(string stockpileName, string coal)
+        {
+            Console.WriteLine("entered thingo");
+            if (Stockpiles == null)
+                Stockpiles = new List<Stockpile>();
+
+            if (coal == null)
+                Stockpiles.Add(new Stockpile(stockpileName, "Empty"));
+            else
+                Stockpiles.Add(new Stockpile(stockpileName, coal));
+        }
+
+        /// <summary>
+        ///     RunOfMine is considered equal when the dates, priority and all
+        ///     stockpiles contain the same values.
+        /// </summary>
+        /// <param name="obj">The object being checked for equality.</param>
+        /// <returns>True if equal.</returns>
+        public override bool Equals(object obj)
+        {
+            var equal = true;
+
+            if (obj == null)
+                return false;
+            if (obj.GetType() != GetType())
+                return false;
+
+            var otherROM = (RunOfMine) obj;
+
+            if (Date == otherROM.Date && Priority == otherROM.Priority)
+            {
+                var otherStockpileses = otherROM.Stockpiles;
+                foreach (var s in Stockpiles)
+                    if (!otherStockpileses.Contains(s))
+                        equal = false;
             }
             return equal;
         }
-        }
     }
+}

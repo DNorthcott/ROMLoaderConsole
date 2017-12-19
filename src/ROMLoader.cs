@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlTypes;
 
 namespace RomLoaderConsole
 {
     public class ROMLoader
     {
-        private List<string> coalCycle;
-        private int index;
+        private readonly List<string> coalCycle;
+        private readonly int index;
+        private readonly TimeSpan loadTime;
         private TimeSpan maxWaitTime;
-        private TimeSpan loadTime;
-
 
 
         public ROMLoader(List<string> coalCycle, TimeSpan maxWaitTime, TimeSpan loadTime)
@@ -33,11 +31,6 @@ namespace RomLoaderConsole
 
             while (findMovement)
             {
-                
-                
-
-
-
             }
 
             //Tell the loader to load coal.
@@ -45,18 +38,18 @@ namespace RomLoaderConsole
             return resultOfMovements;
         }
 
-        public bool CheckIncomingTrucks(DateTime maximumTime, string requiredCoal, List<CoalMovement> movements, 
+        public bool CheckIncomingTrucks(DateTime maximumTime, string requiredCoal, List<CoalMovement> movements,
             List<CoalMovement> resultOfMovements)
         {
-            if (movementsContainRequiredCoal(getNextCoal(), movements))
+            if (MovementsContainRequiredCoal(GetNextCoal(), movements))
             {
-
-                foreach (CoalMovement coalMovement in movements)
+                foreach (var coalMovement in movements)
                 {
                     DateTime minimumTime = maximumTime.Subtract(loadTime);
                     maximumTime = maximumTime.Add(loadTime);
 
-                    if (coalMovement.Coal.Equals(requiredCoal) && (coalMovement.PropDateTime < maximumTime && coalMovement.PropDateTime > minimumTime ))
+                    if (coalMovement.Coal.Equals(requiredCoal) && coalMovement.PropDateTime < maximumTime &&
+                        coalMovement.PropDateTime > minimumTime)
                     {
                         // Add the coal movement to the results of movements list.
                         resultOfMovements.Add(coalMovement);
@@ -66,30 +59,24 @@ namespace RomLoaderConsole
 
                         return true;
                     }
-
                 }
                 return false;
             }
             //Coal required not found.  Exit out and load coal with loader.
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
-        public string getNextCoal()
+        public string GetNextCoal()
         {
             return coalCycle[coalCycle.Count % (index + 1)];
         }
 
-        public bool movementsContainRequiredCoal(string coal, List<CoalMovement> movements)
+        public bool MovementsContainRequiredCoal(string coal, List<CoalMovement> movements)
         {
             foreach (CoalMovement movement in movements)
             {
                 if (movement.Coal.Equals(coal))
-                {
                     return true;
-                }
             }
             return false;
         }

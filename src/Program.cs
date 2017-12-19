@@ -1,25 +1,24 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading.Tasks;
 
 namespace RomLoaderConsole
 {
-    class Program
+    internal class Program
     {
         /// <summary>
-        /// Executes the async class that runs this program.
+        ///     Executes the async class that runs this program.
         /// </summary>
         /// <param name="args"></param>
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
+            MainAsync().Wait();
+        }
 
-            Console.WriteLine("======================================");
-            Console.WriteLine("Welcome to the ROM loading system");
-            Console.WriteLine("======================================");
 
-            ViewModel display = new ViewModel();
-            display.StartProgram();
+        private static async Task MainAsync()
+        {
+            var display = new ViewModel();
+            display.StartProgram().Wait();
             display.UserIterface();
-            Console.ReadKey();
         }
     }
 }

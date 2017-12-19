@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace RomLoaderConsole
 {
     public class ViewModel
     {
-        List<Blend> listOfBlends;
-        List<RunOfMine> listOfStockpiles;
-        List<CoalMovement> listOfCoalMovements;
-        DatabaseServices database;
-
-        private RunOfMine primaryROM;
+        private readonly DatabaseServices database;
+        private List<Blend> listOfBlends;
+        private List<CoalMovement> listOfCoalMovements;
+        private List<RunOfMine> listOfROMS;
         private Blend primaryBlend;
+        private RunOfMine primaryROM;
 
         public ViewModel()
         {
@@ -20,30 +19,53 @@ namespace RomLoaderConsole
             database = new DatabaseServices("ConsoleDB.db");
         }
 
-        public async void StartProgram()
+        public async Task StartProgram()
         {
-            
+            Console.WriteLine("======================================");
+            Console.WriteLine("Welcome to the ROM loading system");
+            Console.WriteLine("======================================");
 
+            // Get blends from db for today.
             listOfBlends = await database.GetBlends(DateTime.Now);
-            listOfBlends.Sort();
-            if (listOfBlends.Count != 0)
+
+            // Set primary blend;
+            primaryBlend = SetPrimaryBlend(listOfBlends);
+
+            // Get the stockpile locations for the ROM for today.
+            listOfROMS = await database.GetRunOfMine(DateTime.Now);
+
+            // Set primary ROM.
+            primaryROM = SetPrimaryRom(listOfROMS);
+        }
+
+        private RunOfMine SetPrimaryRom(List<RunOfMine> runOfMines)
+        {
+            listOfROMS.Sort();
+            if (listOfROMS.Count != 0)
             {
-                primaryBlend = listOfBlends[listOfBlends.Count - 1];
+                return listOfROMS[listOfROMS.Count - 1];
             }
             else
             {
-                Console.WriteLine("No blend for today found");
+                ExitProgram("RunOfMine");
+                return null;
             }
+        }
 
-            listOfStockpiles = await database.GetRunOfMine(DateTime.Now);
-            listOfStockpiles.Sort();
-            primaryROM = listOfStockpiles[listOfStockpiles.Count - 1];
-           
+        private Blend SetPrimaryBlend(List<Blend> blends)
+        {
+            listOfBlends.Sort();
+            if (listOfBlends.Count != 0)
+            {
+
+                return listOfBlends[listOfBlends.Count - 1];
+            }
+            ExitProgram("blend");
+            return null;
         }
 
         public void UserIterface()
         {
-
             char selection = MainScreen();
 
             switch (selection)
@@ -58,8 +80,9 @@ namespace RomLoaderConsole
                     LoadBin();
                     break;
                 case '4':
-                //close program
+                    //close program
                     Console.WriteLine();
+                    //exit method here.
                     break;
                 default:
                     MainScreen();
@@ -68,25 +91,11 @@ namespace RomLoaderConsole
 
 
             UserIterface();
-
-
-
-
         }
 
-        private void BlendInfo()
-        {
-            
-        }
-
-        private void LoadBin()
-        {
-            
-        }
 
         private char MainScreen()
         {
-
             Console.WriteLine();
             Console.WriteLine("Select from the following: ");
             Console.WriteLine("1 Todays blend");
@@ -97,17 +106,35 @@ namespace RomLoaderConsole
 
         private void StockpileLocations()
         {
-
             Console.WriteLine();
 
-            List <Stockpile> stockpiles = primaryROM.GetStockpiles();
+            List<Stockpile> stockpiles = primaryROM.Stockpiles;
             stockpiles.Sort();
 
-            foreach (var pileStockpile in stockpiles)
+            foreach (Stockpile pileStockpile in stockpiles)
             {
                 Console.WriteLine(pileStockpile.ToString());
             }
+        }
 
+        private void BlendInfo()
+        {
+            Console.WriteLine();
+            //List<string> blend = primaryBlend
+
+            
+        }
+
+        private void LoadBin()
+        {
+        }
+
+        private void ExitProgram(string reason)
+        {
+            Console.WriteLine("The database does not contain the required data for " + reason);
+            Console.WriteLine("Press any key to exit.");
+            Console.ReadKey();
+            Environment.Exit(0);
         }
     }
 }

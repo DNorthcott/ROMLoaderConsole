@@ -122,11 +122,22 @@ namespace RomLoaderConsole.tests
 
             DateTime date = new DateTime(2017, 12, 13);
 
+            List<RunOfMine> ROMList = await database.GetRunOfMine(date);
 
+            RunOfMine ROM = new RunOfMine("2017-12-12", 1, "03N_46_J16", null, null, "03S_46_F25", null, null, "03S_46_J19"
+                , "13_36_J17", null, null);
 
+            RunOfMine ROM1 = new RunOfMine("2017-12-12", 2, "12_34_F54", "13_36_J17", "15N_25_G253", "03S_46_F25", null, null, "16S_23_G53"
+                , "16N_22_F253", "16N_22_F253", null);
 
+            RunOfMine ROM2 = new RunOfMine("2017-12-12", 2, "03S_46_J19", "13_34_F23", null, "03S_46_F25", "05N_46_F25",
+                "13_36_J17", "16S_23_G53"
+                , "16N_22_F253", "12_34_F25", "13_36_J17");
 
-
+            Assert.True(ROMList.Contains(ROM));
+            Assert.True(ROMList.Contains(ROM1));
+            Assert.True(ROMList.Contains(ROM2));
+            Assert.True(ROMList.Count == 3);
         }
 
     }
