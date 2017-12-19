@@ -12,6 +12,7 @@ namespace RomLoaderConsole
         private List<RunOfMine> listOfROMS;
         private Blend primaryBlend;
         private RunOfMine primaryROM;
+        private ROMLoader loader;
 
         public ViewModel()
         {
@@ -36,6 +37,43 @@ namespace RomLoaderConsole
 
             // Set primary ROM.
             primaryROM = SetPrimaryRom(listOfROMS);
+
+            //Set up ROM Loader.
+
+            
+        }
+
+        private void SetUpROMLoader()
+        {
+            Console.WriteLine();
+            Console.Write("Please input the time to load a truck in minutes: ");
+            int loadingTime = ReadInputMinutes();
+            TimeSpan loadingTimeSpan = new TimeSpan(0,0, loadingTime);
+
+            Console.WriteLine();
+            Console.WriteLine("Please input the maximum number of a minutes ");
+            Console.WriteLine("a haul truck can wait before dumping: ");
+            int waitTime = ReadInputMinutes();
+            TimeSpan waitTimeSpan = new TimeSpan(0, 0, waitTime);
+            loader = new ROMLoader(primaryBlend.Cycle, loadingTimeSpan, waitTimeSpan);
+        }
+
+        private int ReadInputMinutes()
+        {
+            bool loop = true;
+
+            while (true)
+            {
+                try
+                {
+                    int minutes = Int32.Parse(Console.ReadLine()); 
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Please input correct format.");
+                    Console.WriteLine("Input minutes: ");
+                }
+            }
         }
 
         private RunOfMine SetPrimaryRom(List<RunOfMine> runOfMines)
@@ -77,7 +115,7 @@ namespace RomLoaderConsole
                     StockpileLocations();
                     break;
                 case '3':
-                    LoadBin();
+                    LoadBin().Wait();
                     break;
                 case '4':
                     //close program
@@ -120,13 +158,22 @@ namespace RomLoaderConsole
         private void BlendInfo()
         {
             Console.WriteLine();
-            //List<string> blend = primaryBlend
+
+            List<string> cycle = primaryBlend.Cycle;
+
+            for (int i = 0; i < cycle.Count; i++)
+            {
+                Console.WriteLine("Face " + (i + 1) + ": " + cycle[i]);
+            }
 
             
         }
 
-        private void LoadBin()
+        private async Task LoadBin()
         {
+            List<CoalMovement> movements = await database.GetCoalMovements(DateTime.Now, 30);
+
+
         }
 
         private void ExitProgram(string reason)
