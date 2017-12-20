@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using NUnit.Framework.Api;
 
 namespace RomLoaderConsole
 {
     public class ROMLoader
     {
         private readonly List<string> coalCycle;
-        private readonly int index;
+        private int index;
         private readonly TimeSpan loadTime;
         private TimeSpan maxWaitTime;
 
@@ -19,37 +20,55 @@ namespace RomLoaderConsole
             this.loadTime = loadTime;
         }
 
-        public List<string> LoadCoal(DateTime time, List<CoalMovement> movements)
+        public List<CoalMovement> LoadCoal(DateTime minimumTime, List<CoalMovement> IncomingTrucks)
         {
-            time = time.Add(loadTime);
-            //No gaurentee that movements is sorted when delievered from DB.
-            movements.Sort();
 
-            List<string> resultOfMovements = new List<string>();
+            List<CoalMovement> loadingCycleCoalMovements = new List<CoalMovement>();
 
             bool findMovement = true;
 
+            string requiredCoal = "temp";       
+
             while (findMovement)
             {
+                requiredCoal = GetNextCoal();
+
+                findMovement = AllocateIncomingTrucks(minimumTime, requiredCoal, IncomingTrucks, loadingCycleCoalMovements);
+
+                //If a truck was found.  Change new time to be the time the truck loaded coal into the bin.
+                if (loadingCycleCoalMovements.Count != 0)
+                {
+                    minimumTime = loadingCycleCoalMovements[loadingCycleCoalMovements.Count - 1].PropDateTime;
+                }
             }
+            // TODO: What is going on here?
+            // Subtract time and add 2 minutes for loading.
+            TimeSpan timeSpan = new TimeSpan(0 , (2 - loadTime.Minutes), 0);
+            minimumTime = minimumTime.Add(timeSpan);
+            loadingCycleCoalMovements.Add(LoadROMTruck(requiredCoal, minimumTime));
 
-            //Tell the loader to load coal.
-
-            return resultOfMovements;
+            return loadingCycleCoalMovements;
         }
 
-        public bool CheckIncomingTrucks(DateTime maximumTime, string requiredCoal, List<CoalMovement> movements,
+        private CoalMovement LoadROMTruck(string requiredCoal, DateTime time)
+        {
+            CoalMovement romMovement = new CoalMovement(requiredCoal, "ROM Truck", time);
+            return romMovement;
+        }
+
+        private bool AllocateIncomingTrucks(DateTime time, string requiredCoal, List<CoalMovement> movements,
             List<CoalMovement> resultOfMovements)
         {
-            if (MovementsContainRequiredCoal(GetNextCoal(), movements))
-            {
-                foreach (var coalMovement in movements)
-                {
-                    DateTime minimumTime = maximumTime.Subtract(loadTime);
-                    maximumTime = maximumTime.Add(loadTime);
 
+            if (MovementsContainRequiredCoal(requiredCoal, movements))
+            {
+                foreach (CoalMovement coalMovement in movements)
+                {
+                   //Are the coal movements sorted by time? 
+                     DateTime maximumTime = time.Add(loadTime);
+                    
                     if (coalMovement.Coal.Equals(requiredCoal) && coalMovement.PropDateTime < maximumTime &&
-                        coalMovement.PropDateTime > minimumTime)
+                        coalMovement.PropDateTime > time)
                     {
                         // Add the coal movement to the results of movements list.
                         resultOfMovements.Add(coalMovement);
@@ -60,18 +79,19 @@ namespace RomLoaderConsole
                         return true;
                     }
                 }
-                return false;
             }
             //Coal required not found.  Exit out and load coal with loader.
             return false;
         }
 
-        public string GetNextCoal()
+        private string GetNextCoal()
         {
-            return coalCycle[coalCycle.Count % (index + 1)];
+            string coal = coalCycle[coalCycle.Count % (index + 1)];
+            index++;
+            return coal;
         }
 
-        public bool MovementsContainRequiredCoal(string coal, List<CoalMovement> movements)
+        private bool MovementsContainRequiredCoal(string coal, List<CoalMovement> movements)
         {
             foreach (CoalMovement movement in movements)
             {

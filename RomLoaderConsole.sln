@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RomLoaderConsole", "RomLoaderConsole.csproj", "{E7273286-12DA-4B35-8F8A-8848DBD04153}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RomLoaderConsoleTests", "..\RomLoaderConsoleTests\RomLoaderConsoleTests.csproj", "{6AA88102-5F7C-4E88-838A-AD75BB795161}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{E7273286-12DA-4B35-8F8A-8848DBD04153}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7273286-12DA-4B35-8F8A-8848DBD04153}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7273286-12DA-4B35-8F8A-8848DBD04153}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AA88102-5F7C-4E88-838A-AD75BB795161}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AA88102-5F7C-4E88-838A-AD75BB795161}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AA88102-5F7C-4E88-838A-AD75BB795161}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AA88102-5F7C-4E88-838A-AD75BB795161}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

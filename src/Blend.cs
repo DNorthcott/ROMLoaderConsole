@@ -65,6 +65,10 @@ namespace RomLoaderConsole
             {
                 return;
             }
+            if (cycle == null)
+            {
+                cycle = new List<string>();
+            }
             
             cycle.Add(coal);
             

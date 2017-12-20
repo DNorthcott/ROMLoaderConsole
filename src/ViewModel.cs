@@ -39,8 +39,9 @@ namespace RomLoaderConsole
             primaryROM = SetPrimaryRom(listOfROMS);
 
             //Set up ROM Loader.
+            SetUpROMLoader();
 
-            
+
         }
 
         private void SetUpROMLoader()
@@ -48,14 +49,14 @@ namespace RomLoaderConsole
             Console.WriteLine();
             Console.Write("Please input the time to load a truck in minutes: ");
             int loadingTime = ReadInputMinutes();
-            TimeSpan loadingTimeSpan = new TimeSpan(0,0, loadingTime);
+            TimeSpan loadingTimeSpan = new TimeSpan(0, loadingTime, 0);
 
             Console.WriteLine();
             Console.WriteLine("Please input the maximum number of a minutes ");
-            Console.WriteLine("a haul truck can wait before dumping: ");
+            Console.Write("a haul truck can wait before dumping: ");
             int waitTime = ReadInputMinutes();
-            TimeSpan waitTimeSpan = new TimeSpan(0, 0, waitTime);
-            loader = new ROMLoader(primaryBlend.Cycle, loadingTimeSpan, waitTimeSpan);
+            TimeSpan waitTimeSpan = new TimeSpan(0, waitTime, 0);
+            loader = new ROMLoader(primaryBlend.Cycle, waitTimeSpan, loadingTimeSpan);
         }
 
         private int ReadInputMinutes()
@@ -66,7 +67,9 @@ namespace RomLoaderConsole
             {
                 try
                 {
-                    int minutes = Int32.Parse(Console.ReadLine()); 
+                    string input = Console.ReadLine();
+                    int minutes = Int32.Parse(input);
+                    return minutes;
                 }
                 catch (Exception e)
                 {
@@ -171,9 +174,19 @@ namespace RomLoaderConsole
 
         private async Task LoadBin()
         {
+            List<CoalMovement> coalMovements;
+            coalMovements = await GetCoalMovements();
+
+            DateTime time = DateTime.Now;
+            loader.LoadCoal(time, coalMovements);
+
+
+        }
+
+        private async Task<List<CoalMovement>> GetCoalMovements()
+        {
             List<CoalMovement> movements = await database.GetCoalMovements(DateTime.Now, 30);
-
-
+            return movements;
         }
 
         private void ExitProgram(string reason)

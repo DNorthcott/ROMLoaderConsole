@@ -30,6 +30,13 @@ namespace RomLoaderConsole
             DateTimeArrival = dateTimeArrival;
         }
 
+        public CoalMovement(string coal, string truck, DateTime dateTimeArrival)
+        {
+            Coal = coal;
+            Truck = truck;
+            PropDateTime = dateTimeArrival;
+        }
+
         public string Truck { get; set; }
 
         public string Coal { get; set; }
@@ -61,6 +68,12 @@ namespace RomLoaderConsole
             return PropDateTime.CompareTo(otherCoalMovement.PropDateTime);
         }
 
+        /// <summary>
+        /// Coal movements are considered equal when they contain the same coal, same datetime 
+        /// and same truck name.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (obj == null)
