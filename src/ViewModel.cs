@@ -61,8 +61,7 @@ namespace RomLoaderConsole
 
         private int ReadInputMinutes()
         {
-            bool loop = true;
-
+           
             while (true)
             {
                 try
@@ -178,7 +177,7 @@ namespace RomLoaderConsole
             coalMovements = await GetCoalMovements();
 
             DateTime time = DateTime.Now;
-            loader.LoadCoal(time, coalMovements);
+            loader.AllocateCoalMovements(time, coalMovements);
 
 
         }

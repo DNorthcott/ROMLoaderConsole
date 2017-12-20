@@ -42,7 +42,7 @@ namespace RomLoaderConsole.tests
             ROMLoader loader = new ROMLoader(coalCycle, waitTimeSpan, loadTimeSpan);
 
             DateTime minimumTime = new DateTime(2017, 12, 12, 04, 44, 52 );
-            List<CoalMovement> result = loader.LoadCoal(minimumTime, incomingCoalMovements);
+            List<CoalMovement> result = loader.AllocateCoalMovements(minimumTime, incomingCoalMovements);
 
             Assert.True(true);
         }
