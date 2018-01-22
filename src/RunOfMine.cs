@@ -184,7 +184,7 @@ namespace RomLoaderConsole
 
         public void AddStockpile(string stockpileName, string coal)
         {
-            Console.WriteLine("entered thingo");
+           
             if (Stockpiles == null)
                 Stockpiles = new List<Stockpile>();
 

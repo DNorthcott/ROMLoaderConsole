@@ -46,6 +46,8 @@ Csr REAL NOT NULL,
 FeedAsh REAL NOT NULL,
 Yield REAL NOT NULL
 );
+
+
 INSERT INTO Coal (name, vols, phos, suphur, csr, feedash, yield) VALUES ('03N_46_J16', 16.88, 0.044, 0.56, 73.22979862, 41.190194195548, 27.1407961158311);
 INSERT INTO Coal (name, vols, phos, suphur, csr, feedash, yield) VALUES ('03S_46_F25', 16.05, 0.095, 0.57, 69.6175748, 20.1327015148744, 83.665791521935);
 INSERT INTO Coal (name, vols, phos, suphur, csr, feedash, yield) VALUES ('05N_46_F25', 16.05, 0.077, 0.56, 68.88722832, 20.7296894881353, 81.8602148971617);
@@ -89,9 +91,11 @@ CREATE TABLE CoalMovement (
 Coal TEXT,
 Truck TEXT,
 DateTimeArrival TEXT,
+Feed INT DEFAULT 0,
 PRIMARY KEY (Coal, Truck, DateTimeArrival),
 FOREIGN KEY (Coal) REFERENCES Coal(name)
 FOREIGN KEY (Truck) REFERENCES Truck(name)
+CONSTANT CHK_Feed CHECK (Feed = 1 OR FEED = 0)
 );
 
 

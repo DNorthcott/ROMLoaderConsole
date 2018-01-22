@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using NUnit.Framework.Api;
 
 namespace RomLoaderConsole
 {
@@ -41,7 +42,8 @@ namespace RomLoaderConsole
             //Set up ROM Loader.
             SetUpROMLoader();
 
-
+            Console.WriteLine();
+            Console.WriteLine("======================================");
         }
 
         private void SetUpROMLoader()
@@ -173,13 +175,39 @@ namespace RomLoaderConsole
 
         private async Task LoadBin()
         {
-            List<CoalMovement> coalMovements;
-            coalMovements = await GetCoalMovements();
+            
+            List<CoalMovement> coalMovements = await GetCoalMovements();
 
             DateTime time = DateTime.Now;
-            loader.AllocateCoalMovements(time, coalMovements);
 
+            List<CoalMovement> coalToBin = loader.AllocateCoalMovements(time, coalMovements);
 
+            DisplayLoadingSequence(coalToBin);
+        }
+
+        private void DisplayLoadingSequence(List<CoalMovement> coalToBin)
+        {
+            Console.WriteLine();
+            Console.WriteLine("======================================");
+            Console.WriteLine();
+            Console.WriteLine("The following coal movements are to be dumped");
+            Console.WriteLine("in the following order: ");
+            Console.WriteLine();
+
+            CoalMovement ROMTruck = coalToBin[coalToBin.Count - 1];
+            coalToBin.Remove(ROMTruck);
+
+            foreach (CoalMovement movement in coalToBin)
+            {
+                Console.WriteLine(movement.Truck + " arrives at " + movement.PropDateTime.ToString() + " carrying " + 
+                    movement.Coal);
+            }
+
+            //TODO: needs to identify the stockpile to take from.
+            Console.WriteLine("ROM loader is to load " + ROMTruck.Coal);
+
+            Console.WriteLine();
+            Console.WriteLine("======================================");
         }
 
         private async Task<List<CoalMovement>> GetCoalMovements()

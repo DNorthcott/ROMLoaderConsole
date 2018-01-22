@@ -64,7 +64,7 @@ namespace RomLoaderConsole
                 requiredCoal = GetNextCoal();
 
                 // Find coal movements.  
-                foundMovement = AllocateIncomingTrucks(minimumTime, requiredCoal, IncomingTrucks, allocatedCoalMovements);
+                foundMovement = FindRequireCoal(minimumTime, requiredCoal, IncomingTrucks, allocatedCoalMovements);
 
                 //If a truck was found.  Change new time to be the time the truck loaded coal into the bin.
                 if (allocatedCoalMovements.Count != 0)
@@ -76,56 +76,78 @@ namespace RomLoaderConsole
             }
 
 
-            // TODO: What is going on here?
-            // Subtract time and add 2 minutes for loading.
+            // TODO: Review timings for ROM truck.  This should be fine as is, due to case of no trucks found.
             
+            // Subtract load time.  May make changes to time here later to load rom truck earlier.
             minimumTime = minimumTime.Subtract(loadTime);
             allocatedCoalMovements.Add(LoadROMTruck(requiredCoal, minimumTime));
 
             return allocatedCoalMovements;
         }
 
+        /// <summary>
+        /// Returns a new coal movement with the ROM truck labeled as the truck.
+        /// </summary>
+        /// <param name="requiredCoal">The coal in the the coal movement.</param>
+        /// <param name="time">ETA of the rom truck to be loaded.</param>
+        /// <returns></returns>
         private CoalMovement LoadROMTruck(string requiredCoal, DateTime time)
         {
             CoalMovement romMovement = new CoalMovement(requiredCoal, "ROM Truck", time);
             return romMovement;
         }
 
-        private bool AllocateIncomingTrucks(DateTime time, string requiredCoal, List<CoalMovement> movements,
+        /// <summary>
+        /// Finds if a CoalMovement is in the incomingCoalMovements falls with inside the minimum and maximum 
+        /// time with the required coal.
+        /// </summary>
+        /// <param name="time"></param>
+        /// <param name="requiredCoal"></param>
+        /// <param name="incomgCoalMovements"></param>
+        /// <param name="resultOfMovements"></param>
+        /// <returns></returns>
+        private bool FindRequireCoal(DateTime time, string requiredCoal, List<CoalMovement> incomingCoalMovements,
             List<CoalMovement> resultOfMovements)
         {
 
-            if (MovementsContainRequiredCoal(requiredCoal, movements))
-            {
-                foreach (CoalMovement coalMovement in movements)
+                foreach (CoalMovement coalMovement in incomingCoalMovements)
                 {
                    //Are the coal movements sorted by time? 
                      DateTime maximumTime = time.Add(loadTime);
                     
                     if (coalMovement.Coal.Equals(requiredCoal) && coalMovement.PropDateTime < maximumTime &&
-                        coalMovement.PropDateTime > time)
+                        coalMovement.PropDateTime > time && coalMovement.Coal == requiredCoal)
+
+                    // movement.Coal.Equals(coal)
                     {
                         // Add the coal movement to the results of movements list.
                         resultOfMovements.Add(coalMovement);
 
                         // Remove coal from movements - Cannt be used again.
-                        movements.Remove(coalMovement);
+                        incomingCoalMovements.Remove(coalMovement);
 
                         return true;
                     }
                 }
-            }
+            
             //Coal required not found.  Exit out and load coal with loader.
             return false;
         }
-
+        // TODO: breaks at end of cycle.
         private string GetNextCoal()
         {
-            string coal = blendCycle[blendCycle.Count % (index + 1)];
+            
+            string coal = blendCycle[(index) % blendCycle.Count];
             index++;
             return coal;
         }
 
+        /// <summary>
+        /// This may now be redundant.
+        /// </summary>
+        /// <param name="coal"></param>
+        /// <param name="movements"></param>
+        /// <returns></returns>
         private bool MovementsContainRequiredCoal(string coal, List<CoalMovement> movements)
         {
             foreach (CoalMovement movement in movements)
